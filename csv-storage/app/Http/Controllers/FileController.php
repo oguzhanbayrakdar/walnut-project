@@ -21,10 +21,4 @@ class FileController extends Controller
 
 			return response()->json(['error' => 'No file uploaded'], 400);
 	}
-	public function uploadTest(Request $request)
-	{
-		return response()->json(['success' => 'lmao'], 200);
-	}
-
-
 }
