@@ -6,7 +6,6 @@ import { db } from '../server';
 import { User } from '../models/user';
 
 export const get = async (req: Request, res: Response) => {
-
 	try{
 		const usersCollection = db.collection('users');
 		const users = await usersCollection.find({}).toArray();
@@ -16,7 +15,9 @@ export const get = async (req: Request, res: Response) => {
 	}
 	
 }
+
 export const create = async (req: Request, res: Response) => {
+	// Validates Form
 	await check('email', "E-mail is not valid").isEmail().run(req)
 	await check('firstname', "Firstname is not valid").isString().run(req)
 	await check('lastname', "Lastname is not valid").isString().run(req)
@@ -33,6 +34,7 @@ export const create = async (req: Request, res: Response) => {
 		const newUser = new User({
 			email, firstname, lastname
 		})
+		// Inserts the user.
 		const result = await usersCollection.insertOne(newUser);
 		return res.status(200).json({result})
 	}catch(err: any){
@@ -40,6 +42,7 @@ export const create = async (req: Request, res: Response) => {
 	}
 }
 export const update = async (req: Request, res: Response) => {
+	// Validates Form
 	await check('email', "E-mail is not valid").isEmail().run(req)
 	await check('firstname', "Firstname is not valid").isString().run(req)
 	await check('lastname', "Lastname is not valid").isString().run(req)
@@ -54,6 +57,7 @@ export const update = async (req: Request, res: Response) => {
 
 	try{
 		const usersCollection = db.collection('users');
+		// Finds the user and updates it.
 		const user = await usersCollection.findOneAndUpdate({_id: new ObjectId(req.body._id)},
 		{
 			$set: {
@@ -65,6 +69,12 @@ export const update = async (req: Request, res: Response) => {
 		return res.status(400).json({message: 'An error occurred!'})
 	}	
 }
+/**
+ * Deletes user by id
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export const remove = async (req: Request, res: Response) => {
 	const id = req.params.id;
 
@@ -79,6 +89,10 @@ export const remove = async (req: Request, res: Response) => {
 	}
 }
 
+/**
+ * @param users User Array that is parsed from file
+ * @returns 
+ */
 export async function bulkInsertToDb(users: User[]){
 	try{
 		const usersCollection = db.collection('users');

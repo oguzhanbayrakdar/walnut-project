@@ -7,6 +7,7 @@ import cors from 'cors'
 import * as userController from './controllers/user'
 import * as fileController from './controllers/file'
 
+// Mongo DB Settings
 const mongoUrl = 'mongodb+srv://admin:ofQWxFAuPzfl2FPF@walnutdb.a8sxryj.mongodb.net/?retryWrites=true&w=majority'
 const mongoDbClient = new MongoClient(mongoUrl, {});
 const dbName = 'walnutdb'
@@ -16,20 +17,20 @@ const multerUpload = multer({
 	dest: 'uploads/',
 
 	fileFilter: function (req, file, cb) {
-		// Dosya uzantısını kontrol et
+		// Checks file extension
 		if (file.originalname.endsWith('.csv') || file.originalname.endsWith('.txt')) {
-			// Kabul edilen dosya
+			// returns true if the file extension is .csv or .txt
 			cb(null, true);
 		} else {
-			// Kabul edilmeyen dosya
+			// returns error if the file extension is not .csv or .txt
 			cb(new Error('Sadece CSV ve metin dosyaları kabul edilir.'));
 		}
 	}
-}); // Yüklenen dosyaların kaydedileceği dizin
+});
 
 const app = express()
-
 const port = 3000;
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors())

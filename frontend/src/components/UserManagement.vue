@@ -64,6 +64,8 @@ export default defineComponent({
 			this.users.splice(index, 1)
 		},
 		userChange(data: { mode: 'add' | 'edit', user: User }) {
+			// If the mod is edit, finds and changes the user's properties with the new ones.
+			// Otherwise pushes data to beginning of the array
 			if (data.mode === 'edit') {
 				const index = this.users.findIndex(u => u._id === data.user._id);
 				if (index !== -1) {
@@ -78,6 +80,7 @@ export default defineComponent({
 		this.fetchUsers();
 	},
 	watch: {
+		// Watches if there is any incoming data from FileList component.
 		'csvDataStore.data'(newData: User[], oldData: any) {
 			this.users.unshift(...newData);
 		}

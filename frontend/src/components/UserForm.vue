@@ -70,6 +70,10 @@ export default defineComponent({
 		};
 	},
 	methods: {
+		/**
+		 * Gets data from modal and if the modal mode is 'edit', updates user otherwise creates new user.
+		 * After that emits an event to UserManagement component
+		 */
 		async saveUser() {
 			const modalUser = new User({
 				firstname: this.firstname,
@@ -111,7 +115,6 @@ export default defineComponent({
 }
 
 .custom-modal {
-
 	width: 450px;
 	position: absolute;
 	left: 50%;
@@ -121,6 +124,5 @@ export default defineComponent({
 	background-color: rgb(245, 245, 245);
 	padding: 16px;
 	border-radius: 8px;
-
 }
 </style>

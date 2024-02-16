@@ -7,6 +7,12 @@ import axios from 'axios';
 import { UploadedFile } from '../models/uploadedFile';
 import { db } from '../server'
 
+/**
+ * Uploads file to Laravel Storage and parses user data to push to db
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export const upload = async (req: Request, res: Response) => {
 	if (!req.file) return res.status(404);
 
@@ -22,7 +28,7 @@ export const upload = async (req: Request, res: Response) => {
 				csvData.push(row);
 			})
 			.on('end', () => {
-				// We need buffer data to send to laravel
+				// We need buffer data to create form data to send to storage 
 				fileBuffer = fs.readFileSync(req!.file!.path);
 				// Delete file
 				fs.unlinkSync(req!.file!.path);
@@ -71,6 +77,12 @@ export const upload = async (req: Request, res: Response) => {
 	}
 }
 
+/**
+ * Gets Uploaded File Collection
+ * @param req 
+ * @param res 
+ * @returns 
+ */
 export const get = async (req: Request, res: Response) => {
 	try {
 		const uploadedFilesCollection = db.collection('uploadedFiles');

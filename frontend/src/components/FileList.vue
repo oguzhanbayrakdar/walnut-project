@@ -46,8 +46,10 @@ export default defineComponent({
 			}
 			const response = await FileService.uploadFile(this.selectedFile);
 			csvDataStore.setData(response.data.csvData)
+			// Pushes incoming file data to array.
 			this.fileList.unshift(response.data.uploadedFile)
 		},
+		// Gets File Collection
 		async getFileList(){
 			const response = await FileService.getFiles();
 			this.fileList = response.data;
